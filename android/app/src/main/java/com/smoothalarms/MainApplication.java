@@ -13,6 +13,7 @@ import com.smoothalarms.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import com.BV.LinearGradient.LinearGradientPackage; // <--- This!
 import iyegoroff.RNTextGradient.RNTextGradientPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {

@@ -64,5 +64,5 @@ buck-out/
 /vendor/bundle/
 
 # private item
-/src/assets/imgs
+src/assets/imgs
 

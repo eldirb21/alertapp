@@ -1,11 +1,13 @@
 import {Animated, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Switchs = ({
   value = false,
   onValueChange = () => null,
   renderInsideCircle = () => null,
   disabled = false,
+  gradient = false,
   activeText = 'On',
   inActiveText = 'Off',
   backgroundActive = 'green',
@@ -14,10 +16,10 @@ const Switchs = ({
   circleInActiveColor = 'white',
   circleBorderActiveColor = 'rgb(100, 100, 100)',
   circleBorderInactiveColor = 'rgb(80, 80, 80)',
-  switchWidth = 30,
-  switchHeight = 30,
+  switchWidth = 40,
+  switchHeight = 40,
   switchBorderRadius = 100,
-  barHeight = null,
+  barHeight = 40,
   circleBorderWidth = 1,
   changeValueImmediately = true,
   innerCircleStyle = {alignItems: 'center', justifyContent: 'center'},
@@ -33,7 +35,7 @@ const Switchs = ({
   const [state, setState] = useState({
     value: value,
     transformSwitch: new Animated.Value(
-      value ? switchWidth / switchLeftPx : -switchWidth / switchRightPx,
+      value ? switchWidth / (switchLeftPx * 2) : -switchWidth / switchRightPx,
     ),
     backgroundColor: new Animated.Value(value ? 75 : -75),
     circleColor: new Animated.Value(value ? 75 : -75),
@@ -50,7 +52,6 @@ const Switchs = ({
   }, [value, disabled]);
 
   const handleSwitch = () => {
-    console.log('press');
     if (disabled) {
       return;
     }
@@ -70,11 +71,10 @@ const Switchs = ({
   };
 
   const animateSwitch = (value, cb = () => {}) => {
-    console.log(value);
     Animated.parallel([
       Animated.spring(state.transformSwitch, {
         toValue: value
-          ? switchWidth / switchLeftPx
+          ? switchWidth / (switchLeftPx * 2)
           : -switchWidth / switchRightPx,
         useNativeDriver: false,
       }),
@@ -111,43 +111,77 @@ const Switchs = ({
     inputRange: [-75, 75],
     outputRange: [circleBorderInactiveColor, circleBorderActiveColor],
   });
+  // console.log(transformSwitch);
+  // console.log(value);
 
   return (
     <TouchableWithoutFeedback onPress={handleSwitch}>
-      <Animated.View
-        style={[
-          styles.container,
-          {
-            backgroundColor: interpolatedColorAnimation,
-            width: switchWidth * switchWidthMultiplier,
-            height: barHeight || switchHeight,
-            borderRadius: switchBorderRadius,
-          },
-        ]}>
+      {gradient ? (
+        <LinearGradient
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+          colors={['#C847F4', '#9C4DF5', '#6E54F7']}
+          style={{...styles.container}}>
+          <Animated.View
+            style={[
+              styles.animatedContainer,
+              {
+                left: transformSwitch,
+                width: switchWidth * switchWidthMultiplier,
+              },
+            ]}>
+            <Animated.View
+              style={[
+                styles.circle,
+                {
+                  borderWidth: circleBorderWidth,
+                  borderColor: interpolatedCircleBorderColor,
+                  backgroundColor: interpolatedCircleColor,
+                  width: switchWidth,
+                  height: switchHeight,
+                  borderRadius: switchBorderRadius / 2,
+                },
+              ]}>
+              {renderInsideCircle()}
+            </Animated.View>
+          </Animated.View>
+        </LinearGradient>
+      ) : (
         <Animated.View
           style={[
-            styles.animatedContainer,
+            styles.container,
             {
-              left: transformSwitch,
+              backgroundColor: interpolatedColorAnimation,
               width: switchWidth * switchWidthMultiplier,
+              height: barHeight || switchHeight,
+              borderRadius: switchBorderRadius,
             },
           ]}>
           <Animated.View
             style={[
-              styles.circle,
+              styles.animatedContainer,
               {
-                borderWidth: circleBorderWidth,
-                borderColor: interpolatedCircleBorderColor,
-                backgroundColor: interpolatedCircleColor,
-                width: switchWidth,
-                height: switchHeight,
-                borderRadius: switchBorderRadius / 2,
+                left: transformSwitch,
+                width: switchWidth * switchWidthMultiplier,
               },
             ]}>
-            {renderInsideCircle()}
+            <Animated.View
+              style={[
+                styles.circle,
+                {
+                  // borderWidth: circleBorderWidth,
+                  // borderColor: interpolatedCircleBorderColor,
+                  // backgroundColor: interpolatedCircleColor,
+                  // width: switchWidth,
+                  // height: switchHeight,
+                  // borderRadius: switchBorderRadius / 2,
+                },
+              ]}>
+              {renderInsideCircle()}
+            </Animated.View>
           </Animated.View>
         </Animated.View>
-      </Animated.View>
+      )}
     </TouchableWithoutFeedback>
   );
 };
@@ -157,21 +191,22 @@ export default Switchs;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFF',
-    width: 71,
-    height: 30,
+    width: 70,
+    height: 40,
     borderRadius: 30,
   },
   animatedContainer: {
     flex: 1,
-    width: 78,
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   circle: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 40,
+    height: 40,
+    borderRadius: 100,
     backgroundColor: 'white',
+    alignSelf:'center'
   },
 });

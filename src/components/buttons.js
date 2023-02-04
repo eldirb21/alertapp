@@ -3,7 +3,15 @@ import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {LinearTextGradient} from 'react-native-text-gradient';
 
-const Buttons = ({style, lGradient, primaryG, bordered, midle, ...props}) => {
+const Buttons = ({
+  style,
+  lGradient,
+  primaryG,
+  bordered,
+  midle,
+  title,
+  ...props
+}) => {
   var styled = {};
   if (midle) {
     styled['width'] = '45%';
@@ -19,7 +27,7 @@ const Buttons = ({style, lGradient, primaryG, bordered, midle, ...props}) => {
       }
       style={{...styles.linearGradient, ...styled, ...style}}>
       <TouchableOpacity style={styles.btn} {...props}>
-        <Text style={styles.btnText}>Find Out More</Text>
+        <Text style={styles.btnText}>{title ? title : 'Find Out More'}</Text>
       </TouchableOpacity>
     </LinearGradient>
   ) : !bordered ? (
@@ -35,27 +43,23 @@ const Buttons = ({style, lGradient, primaryG, bordered, midle, ...props}) => {
           colors={['#C847F4', '#6E54F7']}
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}>
-          <Text>Find Out More</Text>
+          <Text>{title ? title : 'Find Out More'}</Text>
         </LinearTextGradient>
       </TouchableOpacity>
     </LinearGradient>
   ) : (
-    <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 0}}
-      colors={['transparent', 'transparent', 'transparent']}
-      style={{...styles.bordered, ...styled, ...style}}>
-      <TouchableOpacity style={styles.btn} {...props}>
-        <LinearTextGradient
-          style={styles.btnText}
-          locations={[0, 1]}
-          colors={bordered ? ['#FFFFFF', '#FFFFFF'] : ['#C847F4', '#6E54F7']}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
-          <Text>Find Out More</Text>
-        </LinearTextGradient>
-      </TouchableOpacity>
-    </LinearGradient>
+    <TouchableOpacity
+      style={{...styles.btn, ...styles.bordered, ...styled, ...style}}
+      {...props}>
+      <LinearTextGradient
+        style={styles.btnText}
+        locations={[0, 1]}
+        colors={bordered ? ['#FFFFFF', '#FFFFFF'] : ['#C847F4', '#6E54F7']}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}>
+        <Text>{title ? title : 'Find Out More'}</Text>
+      </LinearTextGradient>
+    </TouchableOpacity>
   );
 };
 
@@ -63,8 +67,6 @@ export default Buttons;
 
 const styles = StyleSheet.create({
   linearGradient: {
-    // paddingLeft: 15,
-    // paddingRight: 15,
     borderRadius: 8,
   },
   bordered: {

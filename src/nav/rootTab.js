@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   icTab: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
 });

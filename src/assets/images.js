@@ -27,3 +27,6 @@ export const bgCardAlarm2 = require('../assets/imgs/bg-card-alarm2.png');
 export const bgProfile = require('../assets/icons/bg-profile.png');
 export const icSettings = require('../assets/icons/fi-sr-settings.png');
 export const sunRise = require('../assets/icons/fi-sr-sunrise.png');
+
+export const logo = require('../assets/logo/logo.jpeg');
+export const splash = require('../assets/imgs/Splashscreen.png');

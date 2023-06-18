@@ -1,20 +1,69 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
-import {
-  avatar,
-  icBell,
-  icKutip,
-  icMap,
-  icMenuDotVertical,
-} from '../../assets/images';
+import {Button, Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {avatar, icBell, icKutip, icMap} from '../../assets/images';
 import Texts from '../../components/Texts';
 import Cards from '../../components/cards';
-import Switchs from '../../components/switchs';
 import AlarmComponent from '../../components/alarmComponent';
+import CardAlarm from '../../components/CardAlarm';
+import moment from 'moment';
+
+const soundList = ['adventure', 'bliss', 'the_inspiration'];
 
 const Home = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isDetailAlarm, setisDetailAlarm] = useState(false);
+  const [toggle, settoggle] = useState(false);
+  const [soundPlayerList, setSoundPlayerList] = useState(null);
+
+  const [dataAlarm, setdataAlarm] = useState({
+    time: '5:30 AM',
+    daily: [
+      {d: 'S', i: false},
+      {d: 'M', i: false},
+      {d: 'T', i: true},
+      {d: 'W', i: true},
+      {d: 'T', i: true},
+      {d: 'F', i: true},
+      {d: 'S', i: true},
+    ],
+  });
+  const [quote, setQuote] = useState({
+    quote:
+      'If you respect yourself in stressful situations, it will help you see the positive ¦ It will help you see the message in the mess.',
+    length: '135',
+    author: 'Steve Maraboli',
+    tags: ['inspire', 'self-respect', 'stress'],
+    category: 'inspire',
+    language: 'en',
+    date: '2020-02-02',
+    permalink:
+      'https://theysaidso.com/quote/steve-maraboli-if-you-respect-yourself-in-stressful-situations-it-will-help-you',
+    id: 'nwW3g7V0xszGDNIehz6yTgeF',
+    background: 'https://theysaidso.com/img/bgs/man_on_the_mountain.jpg',
+    title: 'Inspiring Quote of the day',
+  });
+
+  useEffect(() => {
+    // fetchQuote();
+  }, []);
+
+  const fetchQuote = async () => {
+    try {
+      const response = await fetch('https://quotes.rest/qod?category=inspire', {
+        headers: {
+          'Content-type': 'application/json',
+          // 'X-Theysaidso-Api-Secret': 'wkQpFYs3HE1diztWUISNmk7W23vsX4QE19htjrtf',
+        },
+      });
+      const data = await response.json();
+      const quoteData = data.contents?.quotes[0];
+      if (quoteData) {
+        setQuote(quoteData?.quote);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
@@ -37,58 +86,24 @@ const Home = () => {
 
       <Cards style={styles.cardMotivate}>
         <Image style={styles.icKutip} source={icKutip} />
-        <Texts>{`Don’t stop when you are tired STOP when you’re DONE`}</Texts>
+        <View style={{flex: 1}}>
+          <Texts>{quote.quote}</Texts>
+          <Texts style={styles.author}>{`"${quote.author}"`}</Texts>
+        </View>
       </Cards>
 
-      <Cards>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-          }}>
-          <View>
-            <Texts textLinear>Scheduled Alarm</Texts>
-            <Texts style={{fontSize: 32, fontWeight: 'bold'}}>
-              5:30 <Texts style={{fontSize: 24}}>AM</Texts>
-            </Texts>
-          </View>
-          <View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: 8,
-              }}>
-              <Switchs
-                gradient
-                value={isEnabled}
-                onValueChange={toggleSwitch}
-                disabled={false}
-              />
-              <TouchableOpacity
-                onPress={() => setisDetailAlarm(!isDetailAlarm)}>
-                <Image
-                  style={{height: 30, width: 20}}
-                  source={icMenuDotVertical}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        <View
-          style={{
-            backgroundColor: '#979797',
-            marginHorizontal: -20,
-            marginBottom: -20,
-            marginTop: 10,
-            padding: 15,
-            borderBottomLeftRadius: 16,
-            borderBottomRightRadius: 16,
-          }}>
-          <Texts>SMTWTFS</Texts>
-        </View>
-      </Cards>
+      <CardAlarm
+        switchValue={toggle}
+        onSwitch={() => settoggle(!toggle)}
+        onPress={() => setisDetailAlarm(!isDetailAlarm)}
+        onDaily={i => {
+          var newItem = {...dataAlarm};
+          newItem.daily[i].i = !newItem.daily[i].i;
+          setdataAlarm(newItem);
+        }}
+        data={dataAlarm}
+      />
+
       <AlarmComponent
         visible={isDetailAlarm}
         setVisible={() => setisDetailAlarm(!isDetailAlarm)}
@@ -153,5 +168,9 @@ const styles = StyleSheet.create({
     height: 10,
     width: 10,
     marginRight: 15,
+  },
+  author: {
+    textAlign: 'right',
+    marginTop: 5,
   },
 });

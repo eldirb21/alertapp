@@ -41,7 +41,8 @@ const Alarm = props => {
                   justifyContent: 'space-between',
                   flexDirection: 'column',
                 }}>
-                <Switchs gradient value={true} />
+                <Switchs visible={false} colors={['red', 'blue', 'yellow']} />
+
                 <Texts>12h 28m</Texts>
               </View>
             </Cards>

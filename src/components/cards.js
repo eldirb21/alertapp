@@ -1,4 +1,5 @@
-import {StyleSheet, Text, View} from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -16,8 +17,8 @@ const Cards = ({children, gradient, primaryG, linerStyle, style}) => {
       <View
         style={{
           ...styles.cardContainer,
-          backgroundColor: 'transparent',
           ...style,
+          backgroundColor: 'transparent',
         }}>
         {children}
       </View>

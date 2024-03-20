@@ -2,7 +2,7 @@ import React from 'react';
 import {Text} from 'react-native';
 import {LinearTextGradient} from 'react-native-text-gradient';
 
-export default function Texts({style, textLinear, ...props}) {
+export default function Texts({style, numberOfLines, textLinear, ...props}) {
   const defStyle = {
     fontSize: 14,
     color: '#ffffff',
@@ -11,12 +11,13 @@ export default function Texts({style, textLinear, ...props}) {
 
   return textLinear ? (
     <LinearTextGradient
-      style={style}
-      locations={[0, 1]}
       colors={['#C847F4', '#6E54F7']}
       start={{x: 0, y: 0}}
-      end={{x: 1, y: 0}}>
-      <Text>{props.children}</Text>
+      end={{x: 1, y: 0}}
+      locations={[0, 1]}
+      style={style}
+      {...props}>
+      <Text {...props}>{props.children}</Text>
     </LinearTextGradient>
   ) : (
     <Text {...props} style={[defStyle, ...incStyle]} />

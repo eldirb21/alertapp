@@ -82,8 +82,9 @@ const Home = () => {
 
   const setDay = (day, index) => {
     const newTimes = [...times];
+    const existingDayIndex = newTimes[index].daily.indexOf(day);
+
     newTimes[index].daily.map(x => {
-      const existingDayIndex = newTimes[index].daily.indexOf(day);
       if (existingDayIndex !== -1) {
         newTimes[index].daily.splice(existingDayIndex, 1);
       } else {

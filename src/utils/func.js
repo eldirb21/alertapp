@@ -19,6 +19,26 @@ const Func = {
         return '';
     }
   },
+  setDay3(key) {
+    switch (key) {
+      case 'Sunday':
+        return 'Sun';
+      case 'Monday':
+        return 'Mon';
+      case 'Tuesday':
+        return 'Tue';
+      case 'Wednesday':
+        return 'Wed';
+      case 'Thursday':
+        return 'Thu';
+      case 'Friday':
+        return 'Fri';
+      case 'Saturday':
+        return 'Sat';
+      default:
+        return '';
+    }
+  },
   days: [
     'Sunday',
     'Monday',

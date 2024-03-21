@@ -44,18 +44,18 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   icClose: {
-    height: 25,
-    width: 25,
+    height: 20,
+    width: 20,
     marginRight: 10,
   },
   title: {
     fontFamily: 'Oxygen',
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   edit: {
     fontFamily: 'Oxygen',
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 'bold',
   },
 });

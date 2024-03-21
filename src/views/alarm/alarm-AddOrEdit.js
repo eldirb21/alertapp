@@ -150,7 +150,7 @@ const AlarmAddOEdit = ({navigation}) => {
       </View>
       <View style={{...styles.row, ...styles.item}}>
         <Texts style={styles.label}>Vibrate</Texts>
-        <Switchs gradient value={true} />
+        <Switchs value={true} />
       </View>
       <View style={{...styles.row, ...styles.item}}>
         <Texts style={styles.label}>Preview Alarm</Texts>

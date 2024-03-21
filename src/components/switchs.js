@@ -2,10 +2,14 @@
 import React from 'react';
 import {StyleSheet, Switch, View} from 'react-native';
 
-const Switchs = ({onValueChange, value}) => {
+const Switchs = ({onValueChange, value, style}) => {
   return (
     <View
-      style={[styles.container, {backgroundColor: value ? '#6E54F7' : '#fff'}]}>
+      style={[
+        styles.container,
+        style,
+        {backgroundColor: value ? '#6E54F7' : '#fff'},
+      ]}>
       <Switch
         trackColor={{false: '#fff', true: '#6E54F7'}}
         thumbColor={value ? '#FFF' : '#6E54F7'}

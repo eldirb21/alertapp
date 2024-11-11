@@ -1,17 +1,24 @@
 /* eslint-disable curly */
-import {Image, ScrollView, StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
-import {avatar, icKutip, icMap} from '../../assets/images';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Texts from '../../components/Texts';
 import Cards from '../../components/cards';
 import AlarmComponent from '../../components/alarmComponent';
 import AlarmItem from '../../components/alarm-item';
-import Floats from '../../components/Floats';
 import Func from '../../utils/func';
+import AnalogClock from 'react-native-clock-analog';
+import CircularClock from '../../components/circular-clock';
 
 const Home = () => {
   const [isDetailAlarm, setisDetailAlarm] = useState(false);
   const dates = new Date();
+  const d = new Date();
+  let second = d.getSeconds();
+  let minute = d.getMinutes();
+  let hour = d.getHours()
+  const [quotes, setQuotes] = useState([]);
+  const [loading, setLoading] = useState([]);
+
 
   const [times, setTimes] = useState([
     {
@@ -35,42 +42,27 @@ const Home = () => {
       daily: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'],
       active: false,
     },
-    {
-      id: 4,
-      title: 'Kuliah jam 4 sore',
-      date: dates,
-      daily: ['Sunday', 'Monday', 'Tuesday', 'Wednesday'],
-      active: false,
-    },
-    {
-      id: 5,
-      title: 'Kuliah jam 4 sore',
-      date: dates,
-      daily: ['Sunday', 'Monday', 'Tuesday'],
-      active: false,
-    },
-    {
-      id: 6,
-      title: 'Kuliah jam 4 sore',
-      date: dates,
-      daily: ['Sunday', 'Monday'],
-      active: false,
-    },
-    {
-      id: 7,
-      title: 'Kuliah jam 4 sore',
-      date: dates,
-      daily: ['Sunday'],
-      active: false,
-    },
-    {
-      id: 8,
-      title: 'Kuliah jam 4 sore',
-      date: dates,
-      daily: [],
-      active: false,
-    },
+
   ]);
+
+  useEffect(() => {
+    fetchQuote()
+  }, [])
+  const fetchQuote = async () => {
+    try {
+      const response = await fetch('https://zenquotes.io/api/quotes');
+      if (!response.ok) {
+        throw new Error('Failed to fetch quotes');
+      }
+      const data = await response.json();
+      setQuotes(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   const toggleSwitch = item => {
     const newTimes = [...times];
@@ -95,24 +87,33 @@ const Home = () => {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.cardHeader}>
-        <Image style={styles.avatar} source={avatar} />
-        <View style={styles.itemSubject}>
-          <Texts style={styles.names}>Manas Menon</Texts>
-          <View style={styles.locationContent}>
-            <Image style={styles.icLocation} source={icMap} />
-            <Texts>Indonesia</Texts>
-          </View>
-        </View>
-      </View>
+      <Texts style={styles.greeting}>{Func.getGreeting()}</Texts>
 
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}>
         <Cards style={styles.cardMotivate}>
-          <Image style={styles.icKutip} source={icKutip} />
-          <Texts>{`Don’t stop when you are tired STOP when you’re DONE`}</Texts>
+          {quotes[0] && [quotes[0]].map((quote, index) => (
+            <Texts key={index}>"{quote.q}" - {quote.a}</Texts>
+          ))}
         </Cards>
+
+        <View style={styles.clockContainer}>
+          <CircularClock/>
+          <AnalogClock
+            key={0}
+            colorClock="white"
+            colorNumber="#000000"
+            colorCenter="#00BCD4"
+            colorHour="#FF8F00"
+            colorMinutes="#FFC400"
+            hour={hour}
+            minutes={minute}
+            seconds={second}
+            autostart={true}
+            showSeconds
+          />
+        </View>
 
         {times.map((item, index) => {
           return (
@@ -135,11 +136,7 @@ const Home = () => {
         visible={isDetailAlarm}
         setVisible={() => setisDetailAlarm(!isDetailAlarm)}
       />
-      <Floats
-        onPress={() => {
-          console.log('press togle');
-        }}
-      />
+
     </View>
   );
 };
@@ -150,54 +147,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    paddingHorizontal: 20,
   },
-  cardHeader: {
-    flexDirection: 'row',
+  greeting: {
+    margin: 20,
+    fontSize: 22,
+    fontWeight: 'bold'
+  },
+  clockContainer: {
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 20,
-  },
-  cardProfile: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  avatar: {
-    height: 56,
-    width: 56,
-    borderRadius: 16,
-    borderWidth: 3,
-    borderColor: '#FFFFFF',
-  },
-  itemSubject: {
-    marginLeft: 20,
-  },
-  names: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  locationContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  icLocation: {
-    height: 14,
-    width: 12.8,
-    marginRight: 5,
-  },
-  icBell: {
-    height: 19,
-    width: 19,
+    marginVertical: 20
   },
   cardMotivate: {
-    flexDirection: 'row',
-    paddingVertical: 30,
-    paddingRight: 15,
     marginBottom: 20,
-  },
-  icKutip: {
-    height: 10,
-    width: 10,
-    marginRight: 15,
+    marginHorizontal: 20,
+    backgroundColor: 'transparent',
+    borderWidth: .6,
+    borderColor: '#FFF'
   },
 });

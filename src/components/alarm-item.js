@@ -1,12 +1,12 @@
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import { Dimensions, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import Cards from './cards';
 import Texts from './Texts';
 import Switchs from './switchs';
-import {icMenuDotVertical} from '../assets/images';
+import { icMenuDotVertical } from '../assets/images';
 import moment from 'moment';
 import Func from '../utils/func';
-
+const { width, height } = Dimensions.get('window')
 const AlarmItem = ({
   switchs,
   onSwitch,
@@ -57,6 +57,10 @@ export default AlarmItem;
 const styles = StyleSheet.create({
   card: {
     marginVertical: 5,
+    paddingHorizontal:20,
+    backgroundColor: 'transparent',
+    borderTopWidth: 0.3,
+    borderColor: '#FFF'
   },
   flex: {
     flex: 1,
@@ -79,7 +83,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footer: {
-    backgroundColor: '#979797',
     flexDirection: 'row',
     marginTop: 15,
     marginBottom: -20,

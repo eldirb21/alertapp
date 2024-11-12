@@ -18,72 +18,71 @@ import {
 } from '../../assets/images';
 import Texts from '../../components/Texts';
 import Headers from '../../components/headers';
+import { Container } from '../../components';
 
 const User = () => {
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <ImageBackground style={styles.profileBg} source={bgProfile}>
-          <Headers title={'Profile'} iconRight={icSettings} />
-          <View style={styles.editContainer}>
-            <Image style={styles.icons} source={icPensil} />
-            <Texts>Edit</Texts>
-          </View>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 20,
-              left: 20,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <Image style={styles.sunrise} source={sunRise} />
-            <Texts style={{marginLeft: 10, fontSize: 16, fontWeight: 'bold'}}>
-              5:30 AM
-            </Texts>
-          </View>
-        </ImageBackground>
-        <View style={{flex: 1, padding: 20}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image style={styles.avatar} source={avatar} />
-            <View style={styles.itemSubject}>
-              <Texts style={styles.names}>Manas Menon</Texts>
-              <View style={styles.locationContent}>
-                <Image style={styles.icLocation} source={icMap} />
-                <Texts>Indonesia</Texts>
-              </View>
+    <Container style={styles.container} statusBarHidden scrollEnabled>
+      <ImageBackground style={styles.profileBg} source={bgProfile}>
+        <Headers title={'Profile'} iconRight={icSettings} />
+        <View style={styles.editContainer}>
+          <Image style={styles.icons} source={icPensil} />
+          <Texts>Edit</Texts>
+        </View>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 20,
+            left: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <Image style={styles.sunrise} source={sunRise} />
+          <Texts style={{ marginLeft: 10, fontSize: 16, fontWeight: 'bold' }}>
+            5:30 AM
+          </Texts>
+        </View>
+      </ImageBackground>
+      <View style={{ flex: 1, padding: 20 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Image style={styles.avatar} source={avatar} />
+          <View style={styles.itemSubject}>
+            <Texts style={styles.names}>Manas Menon</Texts>
+            <View style={styles.locationContent}>
+              <Image style={styles.icLocation} source={icMap} />
+              <Texts>Indonesia</Texts>
             </View>
           </View>
-
-          <View style={{marginTop: 30}}>
-            {[1, 2, 3, 4, 5].map((item, index) => {
-              return (
-                <View
-                  key={index}
-                  style={[
-                    styles.row,
-                    {
-                      padding: 20,
-                      backgroundColor: '#353535',
-                      marginBottom: 10,
-                      borderRadius: 16,
-                    },
-                  ]}>
-                  <Texts
-                    style={{
-                      fontSize: 16,
-                      fontWeight: 'bold',
-                    }}>
-                    Add New Goal
-                  </Texts>
-                  <Image style={styles.arrows} source={arrowRight} />
-                </View>
-              );
-            })}
-          </View>
         </View>
-      </ScrollView>
-    </View>
+
+        <View style={{ marginTop: 30 }}>
+          {[1, 2, 3, 4, 5].map((item, index) => {
+            return (
+              <View
+                key={index}
+                style={[
+                  styles.row,
+                  {
+                    padding: 20,
+                    backgroundColor: '#353535',
+                    marginBottom: 10,
+                    borderRadius: 16,
+                  },
+                ]}>
+                <Texts
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  Add New Goal
+                </Texts>
+                <Image style={styles.arrows} source={arrowRight} />
+              </View>
+            );
+          })}
+        </View>
+      </View>
+    </Container>
   );
 };
 
@@ -92,7 +91,7 @@ export default User;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
-    flex: 1,
+    padding: 0
   },
   profileBg: {
     height: 200,

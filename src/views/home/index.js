@@ -99,7 +99,7 @@ const Home = () => {
         </Cards>
 
         <View style={styles.clockContainer}>
-          <CircularClock/>
+          {/* <CircularClock/> */}
           <AnalogClock
             key={0}
             colorClock="white"
